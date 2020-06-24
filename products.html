@@ -24,7 +24,7 @@
         // get URL
         const urlParams = new URLSearchParams(window.location.search);
 
-        // if category
+        // filter by category
         const category = urlParams.get('category');
         if (category != null) {
             $("#productTable tr").filter(function() {
@@ -32,20 +32,25 @@
             });
         }
 
-        // if filter by popularity
+        // filter by popularity
         const popularity_lower_bound = parseInt(urlParams.get('popularity_low'));
-        const popularity_higher_bound = parseInt(urlParams.get('popularity_high'));
-        if (popularity_lower_bound != null && popularity_higher_bound != null) {
+        const popularity_upper_bound = parseInt(urlParams.get('popularity_high'));
+        if (popularity_lower_bound != null && popularity_upper_bound != null) {
             $("#productTable tr").filter(function() {
-                // alert(this);
-                // alert(this.cells[5].innerHTML);
                 row_popularity = parseInt(this.cells[5].innerHTML);
-                $(this).toggle(row_popularity >= popularity_lower_bound && row_popularity < popularity_higher_bound)
+                $(this).toggle(row_popularity >= popularity_lower_bound && row_popularity < popularity_upper_bound)
             });
-        } else {
-            alert("param not found")
         }
 
+        // filter by score
+        const score_lower_bound = parseInt(urlParams.get('score_low'));
+        const score_upper_bound = parseInt(urlParams.get('score_high'));
+        if (score_lower_bound != null && score_upper_bound != null) {
+            $("#productTable tr").filter(function() {
+                row_score = parseInt(this.cells[4].innerHTML);
+                $(this).toggle(row_score >= score_lower_bound && row_score < score_upper_bound)
+            });
+        }
     });
 </script>
 
